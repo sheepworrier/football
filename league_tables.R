@@ -16,4 +16,9 @@ make_top_flight_league_table <- function(df, season) {
 top_flight_league_tables <-
   pmap_dfr(list(list(england), seasons), make_top_flight_league_table)
 
+top_flight_league_tables <- top_flight_league_tables %>%
+  filter(season_start != 2019) %>%
+  mutate(Pos = as.numeric(Pos),
+         top_6 = if_else(Pos <= 6, 1, 0))
+
 write_csv(top_flight_league_tables, "top_flight_league_tables.csv")
